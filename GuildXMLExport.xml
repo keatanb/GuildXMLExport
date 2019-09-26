@@ -1,0 +1,186 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+ ..\..\FrameXML\UI.xsd">
+
+    <Script File="GuildXMLExport.lua"/>
+
+    <Frame name="RosterExporterPanel" enableMouse="true" parent="UIParent">
+        <Scripts>
+            <OnLoad>RosterExporterPanel_OnLoad(self);</OnLoad>
+        </Scripts>
+
+        <Size>
+
+        </Size>
+
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+        <Layers>
+            <Layer level="ARTWORK">
+
+
+            </Layer>
+
+            <Layer level="BACKGROUND">
+                <Texture name="Simple_Background">
+                    <Color r="0" g="0" b="0" a="0"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Button name="ExportMe" text="Export Guild" enableMouse="true">
+                <Size>
+                    <AbsDimension x="250" y="25"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT">
+                        <Offset>
+                            <AbsDimension x="50" y="-50"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <NormalTexture file="Interface\Buttons\UI-Panel-Button-Up">
+                    <TexCoords left="0" right="0.625" top="0" bottom="0.6875"/>
+                </NormalTexture>
+                <PushedTexture file="Interface\Buttons\UI-Panel-Button-Down">
+                    <TexCoords left="0" right="0.625" top="0" bottom="0.6875"/>
+                </PushedTexture>
+                <DisabledTexture file="Interface\Buttons\UI-Panel-Button-Disabled">
+                    <TexCoords left="0" right="0.625" top="0" bottom="0.6875"/>
+                </DisabledTexture>
+                <HighlightTexture file="Interface\Buttons\UI-Panel-Button-Highlight" alphaMode="ADD">
+                    <TexCoords left="0" right="0.625" top="0" bottom="0.6875"/>
+                </HighlightTexture>
+                <ButtonText name="$parentText">
+                    <FontHeight>
+                        <AbsValue val="10"/>
+                    </FontHeight>
+                </ButtonText>
+                <NormalFont style="GameFontNormal"/>
+                <HighlightFont style="GameFontHighlight"/>
+                <DisabledFont style="GameFontDisable"/>
+                <Scripts>
+                    <OnClick>ExportMe_Click()</OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+
+    </Frame>
+
+
+    <Frame name="RosterCopyFrame" parent="UIParent" hidden="true" enableMouse="true" movable="true">
+
+        <Size>
+            <AbsDimension x="370" y="600"/>
+        </Size>
+
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="OVERLAY">
+
+            </Layer>
+
+            <Layer level="OVERLAY">
+                <Texture name="Simple_Background">
+                    <Color r="0" g="0" b="0" a="1"/>
+                </Texture>
+            </Layer>
+        </Layers>
+
+        <Backdrop bgFile="Interface\TutorialFrame\TutorialFrameBackg round"
+                  edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+            <EdgeSize>
+                <AbsValue val="16"/>
+            </EdgeSize>
+            <TileSize>
+                <AbsValue val="32"/>
+            </TileSize>
+            <BackgroundInsets>
+                <AbsInset left="5" right="5" top="5" bottom="5"/>
+            </BackgroundInsets>
+        </Backdrop>
+        <Frames>
+
+            <Button name="Close" inherits="UIPanelCloseButton">
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="-3" y="-3"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+            </Button>
+
+
+            <ScrollFrame name="EditBoxFrameScroll" inherits="UIPanelScrollFrameTemplate" toplevel="true">
+                <Anchors>
+                    <Anchor point="TOP">
+                        <Offset>
+                            <AbsDimension x="0" y="0"/>
+                        </Offset>
+                    </Anchor>
+                    <Anchor point="top" relativeTo="RosterCopyFrame" relativePoint="TOP">
+                        <Offset>
+                            <AbsDimension x="-10" y="-50"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Size>
+                    <AbsDimension x="320" y="540"/>
+                </Size>
+
+                <ScrollChild>
+                    <EditBox name="EditBox" multiLine="true" autoFocus="true" enableMouse="true">
+                        <Size>
+                            <AbsDimension x="320" y="540"/>
+                        </Size>
+                        <Scripts>
+                        </Scripts>
+                        <FontString inherits="ChatFontNormal"/>
+                    </EditBox>
+                </ScrollChild>
+            </ScrollFrame>
+        </Frames>
+
+        <Scripts>
+            <OnLoad>
+                RosterExporter_OnLoad(self);
+                EditBox:SetScript("OnEscapePressed", function(this) RosterCopyFrame:Hide() end);
+
+            </OnLoad>
+            <OnEvent>
+                RosterExporter_OnEvent(self, event, ...);
+            </OnEvent>
+
+            <OnShow>
+            </OnShow>
+
+
+            <OnMouseDown>
+                if button == "LeftButton" and not self.isLocked then
+                self:StartMoving();
+                self.isMoving = true;
+                end
+            </OnMouseDown>
+            <OnMouseUp>
+                if button == "LeftButton" and self.isMoving then
+                self:StopMovingOrSizing();
+                self.isMoving = false;
+                end
+            </OnMouseUp>
+            <OnHide>
+                if ( self.isMoving ) then
+                self:StopMovingOrSizing();
+                self.isMoving = false;
+                end
+            </OnHide>
+
+        </Scripts>
+    </Frame>
+
+</Ui>

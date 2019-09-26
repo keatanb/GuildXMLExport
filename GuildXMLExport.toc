@@ -1,0 +1,11 @@
+## Interface: 11302
+## Title: Guild Tools |cff9966ff[XML Export]
+## Author: Keatan Bauer
+## Version: 1.13.2
+## URL: http://github.com
+## Notes: /exportguild - Print guild roster to an Edit Box as XML. Create new xml file and load to google sheet form
+## DefaultState: Enabled
+## LoadOnDemand: 0
+GuildXMLExport.lua
+GuildXMLExport.xml
+
